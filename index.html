@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Equality Score</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #0078d7;
+      color: white;
+    }
+    header, section, footer {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    #progressContainer {
+      width: 80%;
+      background-color: #ddd;
+      border-radius: 25px;
+      margin: 0 auto 20px auto;
+      height: 30px;
+      overflow: hidden;
+    }
+    #progressBar {
+      height: 100%;
+      width: 0;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      border-radius: 25px;
+      transition: width 0.03s linear;
+      background-color: #bbb;
+    }
+    #loadingText {
+      font-style: italic;
+      margin: 20px 0;
+      color: #e0e0e0;
+      font-size: 1.1em;
+      min-height: 24px;
+    }
+    #scoreDisplay {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+    #finalMessage {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #fff;
+      color: #0078d7;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #e0e0e0;
+    }
+    #infoSection {
+      background-color: #f4f4f4;
+      color: #222;
+      text-align: left;
+      padding: 60px 15%;
+      line-height: 1.6;
+    }
+    #infoSection h2 {
+      color: #0078d7;
+      text-align: center;
+    }
+    #infoSection p {
+      margin-bottom: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Equality Score Generator</h1>
+    <div id="progressContainer">
+      <div id="progressBar">0%</div>
+    </div>
+    <div id="loadingText">Klicke auf „Bewerten“</div>
+    <div id="scoreDisplay"></div>
+    <div id="finalMessage"></div>
+    <button onclick="startEvaluation()">Bewerten</button>
+  </header>
+
+  <section id="infoSection">
+    <h2>Warum Gleichstellung wichtig ist</h2>
+    <p>
+      Gleichstellung sorgt für Fairness, Chancengleichheit und eine respektvolle Gesellschaft.
+      Der Equality Score misst, wie sehr du dich – bewusst oder unbewusst – an diesen Prinzipien orientierst.
+    </p>
+    <h2>Wie funktioniert der Equality Scanner?</h2>
+    <p>
+      Der Equality Scanner ist eine Software, die auf deinem Gerät installiert wird – z. B. über einen „Equality USB-Stick“.
+      Sobald er aktiv ist, überwacht er laufend deine Inhalte: Texte, Chats, Dateien und Webseiten.
+    </p>
+    <p>
+      Erkennt der Scanner Verstöße gegen Gleichstellungsprinzipien (z. B. diskriminierende Sprache, stereotype Darstellungen
+      oder ausgrenzendes Verhalten), kann der betreffende Inhalt blockiert oder gefiltert werden.
+    </p>
+    <p>
+      Ziel ist nicht die Bestrafung, sondern die Bewusstmachung: Der Scanner hilft dir, dich selbst und deine Umwelt
+      fairer und offener zu gestalten.
+    </p>
+  </section>
+
+  <script>
+    const loadingMessages = [
+      "Checking your information...",
+      "Scanning for bias patterns...",
+      "Analyzing behavior metrics...",
+      "Evaluating fairness protocols...",
+      "Finalizing your Equality Score..."
+    ];
+
+    function startEvaluation() {
+      const progressBar = document.getElementById("progressBar");
+      const loadingText = document.getElementById("loadingText");
+      const scoreDisplay = document.getElementById("scoreDisplay");
+      const finalMessage = document.getElementById("finalMessage");
+
+      progressBar.style.width = "0%";
+      progressBar.textContent = "0%";
+      progressBar.style.backgroundColor = "#bbb";
+      scoreDisplay.textContent = "";
+      finalMessage.textContent = "";
+
+      const finalScore = Math.floor(Math.random() * 101);
+      let currentProgress = 0;
+      const duration = 6000;
+      const updateInterval = 30;
+      const totalSteps = duration / updateInterval;
+      const progressStep = finalScore / totalSteps;
+
+      let messageIndex = 0;
+      loadingText.textContent = loadingMessages[0];
+      const messageInterval = setInterval(() => {
+        messageIndex++;
+        if (messageIndex < loadingMessages.length) {
+          loadingText.textContent = loadingMessages[messageIndex];
+        } else {
+          clearInterval(messageInterval);
+        }
+      }, 1200);
+
+      const barInterval = setInterval(() => {
+        currentProgress += progressStep;
+        if (currentProgress >= finalScore) {
+          currentProgress = finalScore;
+          clearInterval(barInterval);
+          showFinalResult(finalScore);
+        }
+        const rounded = Math.round(currentProgress);
+        progressBar.style.width = rounded + "%";
+        progressBar.textContent = rounded + "%";
+      }, updateInterval);
+    }
+
+    function showFinalResult(score) {
+      const progressBar = document.getElementById("progressBar");
+      const scoreDisplay = document.getElementById("scoreDisplay");
+      const loadingText = document.getElementById("loadingText");
+      const finalMessage = document.getElementById("finalMessage");
+
+      let color, message;
+      if (score < 40) {
+        color = "#e74c3c";
+        message = "Dein Score zeigt: Hier gibt es noch viel Luft nach oben. Bewusstsein ist der erste Schritt.";
+      } else if (score < 70) {
+        color = "#f1c40f";
+        message = "Ein guter Anfang! Du hast bereits ein gewisses Gleichstellungsbewusstsein.";
+      } else {
+        color = "#2ecc71";
+        message = "Stark! Dein Equality Score zeigt ein hohes Maß an Fairness und Sensibilität.";
+      }
+
+      progressBar.style.backgroundColor = color;
+      loadingText.textContent = "Fertig!";
+      scoreDisplay.textContent = "Dein Equality Score: " + score + "%";
+      finalMessage.textContent = message;
+    }
+  </script>
+</body>
+</html>
