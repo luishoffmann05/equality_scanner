@@ -104,6 +104,22 @@
         height: 24px;
       }
     }
+
+    #info-button {
+      margin-top: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 1px solid white;
+      padding: 8px 16px;
+      font-family: monospace;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    #info-button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -127,15 +143,38 @@
     <div id="score-screen" class="hidden">
       <h1>:(</h1>
       <h2>Bias Error Detected</h2>
-      <p>This AI system has detected bias in its decision-making process.<br>
+      <p>Text, images, and videos were checked for fairness.<br>
       Please restart and ensure fairness for all users.</p>
       <p><i>Rebooting Fairness… <span id="random-score"></span></i></p>
       <button onclick="restartSystem()">Restart System</button>
     </div>
+
+    <!-- Zusatzinformationen -->
+    <div id="project-info" class="hidden" style="margin-top: 20px; max-width: 500px;">
+      <p style="font-size: 0.95rem; line-height: 1.4;">
+        Das Projekt simuliert eine Chrome Extension, die Webseiten automatisiert auf Bias überprüft. 
+        Anhand definierter Parameter analysiert das System Inhalte auf mögliche Verzerrungen und gibt eine Fairness-Bewertung aus. 
+        Ziel ist es, Bewusstsein für algorithmische Voreingenommenheit zu schaffen.
+      </p>
+      <p> Autor:innen: Enis Özdil, Luis Hofmann, Junho An, Ramis Mirza </p>
+    </div>
+
+    <button id="info-button" onclick="toggleInfo()" class="hidden">Mehr Infos</button>
   </div>
 
+  <!-- Footer mit Autor:innen -->
+  <footer id="footer" style="position: absolute; bottom: 10px; font-size: 0.85rem; color: white;">
+    Autor:innen: Enis Özdil, Luis Hofmann, Junho An, Ramis Mirza
+  </footer>
+
   <script>
+    function toggleInfo() {
+      const info = document.getElementById('project-info');
+      info.classList.toggle('hidden');
+    }
+
     function startSystem() {
+      document.getElementById('footer').classList.add('hidden'); // Footer ausblenden
       document.getElementById('start-screen').classList.add('hidden');
       document.getElementById('loading-screen').classList.remove('hidden');
 
@@ -165,6 +204,7 @@
     function showScoreScreen() {
       document.getElementById('bias-passed-screen').classList.add('hidden');
       document.getElementById('score-screen').classList.remove('hidden');
+      document.getElementById('info-button').classList.remove('hidden');
       let randomScore = Math.floor(Math.random() * 9000) + 1000;
       document.getElementById('random-score').textContent = randomScore;
     }
@@ -174,6 +214,9 @@
       document.getElementById('start-screen').classList.remove('hidden');
       document.getElementById('progress-fill').style.width = '0%';
       document.getElementById('progress-text').textContent = '0%';
+      document.getElementById('project-info').classList.add('hidden');
+      document.getElementById('info-button').classList.add('hidden');
+      document.getElementById('footer').classList.remove('hidden'); // Footer wieder einblenden
     }
   </script>
 </body>
